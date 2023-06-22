@@ -1,0 +1,41 @@
+# Required library
+library(mailR)
+
+send_email <- function(to, subject, body, attachment=NULL) {
+  """
+  This function sends an email using the mailR package.
+  
+  Parameters:
+  to (character): The email address of the recipient
+  subject (character): The subject of the email
+  body (character): The body of the email
+  attachment (character): The file path of the attachment (optional)
+  
+  Returns:
+  None
+  """
+  tryCatch({
+    # Set email parameters
+    sender <- "your_email@example.com"
+    password <- "your_password"
+    smtp_server <- "smtp.example.com"
+    smtp_port <- 587
+    
+    # Create the email message
+    email <- send.mail(from = sender,
+                       to = to,
+                       subject = subject,
+                       body = body,
+                       smtp = list(host.name = smtp_server, port = smtp_port,
+                                   user.name = sender, passwd = password),
+                       authenticate = TRUE,
+                       send = TRUE,
+                       attach.files = attachment)
+    
+    # Print confirmation message
+    print("Email sent successfully!")
+  }, error = function(e) {
+    # Log the error
+    print(paste0("Error: ", e$message))
+  })
+}
